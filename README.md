@@ -1,2 +1,2 @@
 # HotelBot
-The base that all Hotel bots use
+The base template for all Hotel bots
