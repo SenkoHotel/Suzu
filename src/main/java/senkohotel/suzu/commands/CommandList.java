@@ -1,7 +1,9 @@
-package senkohotel.hotelbot.commands;
+package senkohotel.suzu.commands;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import senkohotel.hotelbot.Main;
+import senkohotel.suzu.Main;
+import senkohotel.suzu.commands.list.RankCommand;
+import senkohotel.suzu.commands.list.TatsuImportCommand;
 
 import java.util.Arrays;
 import java.util.TreeMap;
@@ -12,6 +14,8 @@ public class CommandList {
 
     public static void initList() {
         // commands.put("<name>", new <CommandClass>());
+        commands.put("rank", new RankCommand());
+        commands.put("tatsuimport", new TatsuImportCommand());
     }
 
     public static void check(MessageReceivedEvent msg) {
