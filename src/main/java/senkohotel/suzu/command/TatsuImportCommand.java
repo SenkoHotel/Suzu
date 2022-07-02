@@ -39,7 +39,7 @@ public class TatsuImportCommand extends Command {
                     DBUtils.updateXP(score, msg.getAuthor().getId());
                     MessageUtils.reply(msg, "Imported " + score + "XP from tatsu!");
                 } else {
-                    MessageUtils.reply(msg, "You already have more XP then the tatsu api!");
+                    MessageUtils.reply(msg, "You already have more XP than the tatsu api!");
                 }
             } else {
                 XPUser newUser = new XPUser();
