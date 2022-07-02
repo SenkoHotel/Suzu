@@ -2,8 +2,8 @@ package senkohotel.suzu.commands.list;
 
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import senkohotel.suzu.api.SuzuDB;
 import senkohotel.suzu.commands.Command;
+import senkohotel.suzu.utils.DBUtils;
 import senkohotel.suzu.utils.MessageUtils;
 import senkohotel.suzu.xp.XPCollection;
 import senkohotel.suzu.xp.XPUser;
@@ -29,7 +29,7 @@ public class TatsuImportCommand extends Command {
             if (XPCollection.users.containsKey(msg.getAuthor().getId())) {
                 if (score > XPCollection.users.get(msg.getAuthor().getId()).xp) {
                     XPCollection.users.get(msg.getAuthor().getId()).setXP(score);
-                    SuzuDB.updateXP(score, msg.getAuthor().getId());
+                    DBUtils.updateXP(score, msg.getAuthor().getId());
                     MessageUtils.reply(msg, "Imported " + score + "XP from tatsu!");
                 } else {
                     MessageUtils.reply(msg, "You already have more XP then the tatsu api!");
@@ -37,7 +37,7 @@ public class TatsuImportCommand extends Command {
             } else {
                 XPUser newUser = new XPUser();
                 newUser.setXP(score);
-                SuzuDB.updateXP(score, msg.getAuthor().getId());
+                DBUtils.insertNewUser(score, msg.getAuthor().getId());
                 XPCollection.users.put(msg.getAuthor().getId(), newUser);
                 MessageUtils.reply(msg, "Imported " + score + "XP from tatsu!");
             }

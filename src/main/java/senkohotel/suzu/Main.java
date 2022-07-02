@@ -4,7 +4,6 @@ import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import senkohotel.suzu.api.SuzuDB;
 import senkohotel.suzu.commands.CommandList;
 import senkohotel.suzu.listeners.MessageListener;
 import senkohotel.suzu.xp.XPCollection;
@@ -17,12 +16,11 @@ import java.util.EnumSet;
 public class Main {
     public static String prefix = "suzu ";
     public static JDA bot;
-    public static int accentColor = 0xFFFFFF;
+    public static int accentColor = 0xdda389;
 
     public static void main(String[] args) throws LoginException {
         CommandList.initList();
         XPCollection.initRoleList();
-        SuzuDB.initDB();
         XPCollection.loadUsers();
 
         JDABuilder jda = JDABuilder.createDefault(loadToken());

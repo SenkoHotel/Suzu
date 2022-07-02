@@ -2,7 +2,7 @@ package senkohotel.suzu.xp;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import senkohotel.suzu.api.SuzuDB;
+import senkohotel.suzu.utils.DBUtils;
 import senkohotel.suzu.utils.MessageUtils;
 
 import java.time.OffsetDateTime;
@@ -26,7 +26,7 @@ public class XPUser {
         }
 
         xp += amount;
-        SuzuDB.updateXP(xp, msg.getAuthor().getId());
+        DBUtils.updateXP(xp, msg.getAuthor().getId());
         checkForNewRoles(msg);
     }
 

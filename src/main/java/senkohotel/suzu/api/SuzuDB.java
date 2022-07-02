@@ -12,9 +12,8 @@ import java.sql.ResultSet;
 
 public class SuzuDB {
     static JsonObject dbConf = null;
-    static HikariDataSource ds;
 
-    public static void initDB () {
+    public static HikariDataSource newDS() {
         try {
             dbConf = JsonParser.parseString(Files.readString(Path.of("config/suzu.json"))).getAsJsonObject();
 
@@ -27,34 +26,27 @@ public class SuzuDB {
             config.setPoolName("suzu");
             config.setIdleTimeout(0);
             config.setDataSourceClassName("org.mariadb.jdbc.MariaDbDataSource");
-            ds = new HikariDataSource(config);
+            return new HikariDataSource(config);
         } catch (Exception ex) {
             System.out.println("Couldn't initialize the DataBase!");
             ex.printStackTrace();
             System.exit(1);
         }
+
+        return null;
     }
 
     public static ResultSet execQuery(String query) {
         try {
+            HikariDataSource ds = newDS();
             PreparedStatement ps = ds.getConnection().prepareStatement(query);
-            return ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+            ds.close();
+            return rs;
         } catch (Exception ex) {
             System.out.println("[DataBase] Couldn't execute query '" + query + "'");
             ex.printStackTrace();
             return null;
         }
-    }
-
-    public static ResultSet getUsers() {
-        return execQuery("SELECT * FROM `suzu`");
-    }
-
-    public static ResultSet updateXP(int xp, String id) {
-        return execQuery("UPDATE `suzu` SET `xp` = '" + xp + "' WHERE `suzu`.`userid` = '" + id + "'");
-    }
-
-    public static ResultSet insertNewUser(int xp, String id) {
-        return execQuery("INSERT INTO `suzu` (`userid`, `xp`) VALUES ('" + id + "', '" + xp + "')");
     }
 }

@@ -2,8 +2,7 @@ package senkohotel.suzu.xp;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import senkohotel.suzu.Main;
-import senkohotel.suzu.api.SuzuDB;
+import senkohotel.suzu.utils.DBUtils;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class XPCollection {
         } else {
             XPUser newuser = new XPUser();
             newuser.setXP(gainedXP);
+            DBUtils.insertNewUser(gainedXP, msg.getAuthor().getId());
             users.put(msg.getAuthor().getId(), newuser);
         }
     }
@@ -52,7 +52,7 @@ public class XPCollection {
 
     public static void loadUsers() {
         try {
-            ResultSet rs = SuzuDB.getUsers();
+            ResultSet rs = DBUtils.getUsers();
             while (rs.next()) {
                 try {
                     XPUser newuser = new XPUser();
@@ -62,7 +62,6 @@ public class XPCollection {
                     ex.printStackTrace();
                 }
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -16,8 +16,15 @@ public class RankCommand extends Command {
 
         int xpAmount = XPCollection.getXPCount(msg.getAuthor().getId());
 
-        if (xpAmount == 0) {
-            MessageUtils.reply(msg, "You have not collected any xp yet! Chat a bit to get some xp!");
+        boolean ignoreXP = false; //  to simulate not having xp
+
+        for (String arg : args) {
+            if (arg.equals("--ignore-xp"))
+                ignoreXP = true;
+        }
+
+        if (xpAmount == 0 || ignoreXP) {
+            MessageUtils.reply(msg, "You have not collected any xp yet! Chat a bit to get some xp!\nIf you already have xp on tatsu you can use `suzu tatsuimport` to import you tatsu score");
             return;
         }
 
