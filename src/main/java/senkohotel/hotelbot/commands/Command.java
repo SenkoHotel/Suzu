@@ -8,4 +8,13 @@ public class Command {
     public void exec(MessageReceivedEvent msg, String[] args) {
         msg.getChannel().sendTyping().complete();
     }
+
+    public boolean hasArgument (String arg, String[] args) {
+        for (String a : args) {
+            if (a.equals(arg))
+                return true;
+        }
+
+        return false;
+    }
 }
