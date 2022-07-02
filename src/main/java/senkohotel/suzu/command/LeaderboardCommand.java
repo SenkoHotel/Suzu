@@ -1,4 +1,4 @@
-package senkohotel.suzu.commands.list;
+package senkohotel.suzu.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 public class LeaderboardCommand extends Command {
     public LeaderboardCommand() {
         super();
+        name = "top";
+        desc = "List of the users with the most xp.";
+        hidden = false;
     }
 
     @Override

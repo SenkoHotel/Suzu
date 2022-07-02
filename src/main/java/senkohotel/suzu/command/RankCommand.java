@@ -1,4 +1,4 @@
-package senkohotel.suzu.commands.list;
+package senkohotel.suzu.command;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import senkohotel.suzu.commands.Command;
@@ -8,6 +8,9 @@ import senkohotel.suzu.xp.XPCollection;
 public class RankCommand extends Command {
     public RankCommand() {
         super();
+        name = "rank";
+        desc = "Shows your own xp count.";
+        hidden = false;
     }
 
     @Override

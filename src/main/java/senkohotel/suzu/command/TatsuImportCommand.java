@@ -1,4 +1,4 @@
-package senkohotel.suzu.commands.list;
+package senkohotel.suzu.command;
 
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -16,12 +16,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class TatsuImportCommand extends Command {
+    public TatsuImportCommand() {
+        super();
+        name = "tatsuimport";
+        desc = "Imports your tatsu score to xp. (so you dont loose progress)";
+        hidden = false;
+    }
+
     @Override
     public void exec(MessageReceivedEvent msg, String[] args) {
         super.exec(msg, args);
 
         try {
-            HttpRequest req =  HttpRequest.newBuilder().uri(new URI("https://api.tatsu.gg/v1/guilds/791993321374613514/rankings/members/" + msg.getMember().getId() + "/all")).GET().header("Authorization", JsonParser.parseString(Files.readString(Path.of("config/suzu.json"))).getAsJsonObject().get("tatsuAPI").getAsString()).build();
+            HttpRequest req = HttpRequest.newBuilder().uri(new URI("https://api.tatsu.gg/v1/guilds/791993321374613514/rankings/members/" + msg.getMember().getId() + "/all")).GET().header("Authorization", JsonParser.parseString(Files.readString(Path.of("config/suzu.json"))).getAsJsonObject().get("tatsuAPI").getAsString()).build();
             HttpResponse client = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
 
             int score = JsonParser.parseString(client.body().toString()).getAsJsonObject().get("score").getAsInt();
