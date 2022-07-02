@@ -26,7 +26,8 @@ public class HelpCommand extends Command {
                 .setDescription("A list off all commands i can use!");
 
         for (Map.Entry<String, Command> command : CommandList.getCommands().entrySet()) {
-            embed.addField(command.getKey(), command.getValue().desc, true);
+            if (!command.getValue().hidden)
+                embed.addField(command.getKey(), command.getValue().desc, true);
         }
 
         MessageUtils.reply(msg, embed);
