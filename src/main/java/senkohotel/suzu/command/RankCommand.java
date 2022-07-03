@@ -1,6 +1,7 @@
 package senkohotel.suzu.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import senkohotel.suzu.Main;
 import senkohotel.suzu.commands.Command;
@@ -20,7 +21,21 @@ public class RankCommand extends Command {
     public void exec(MessageReceivedEvent msg, String[] args) {
         super.exec(msg, args);
 
-        int xpAmount = XPCollection.getXPCount(msg.getAuthor().getId());
+        Member m;
+        if (args.length > 0) {
+            String userID = args[0].replace("<@", "").replace(">", "");
+            try {
+                m = msg.getGuild().getMemberById(userID);
+                if (m == null)
+                    m = msg.getGuild().retrieveMemberById(userID).complete();
+            } catch (Exception ex) {
+                m = msg.getMember();
+            }
+        } else {
+            m = msg.getMember();
+        }
+
+        int xpAmount = XPCollection.getXPCount(m.getUser().getId());
 
         boolean ignoreXP = hasArgument("--ignore-xp", args);
         boolean allRoles = hasArgument("--all-roles", args);
@@ -36,7 +51,7 @@ public class RankCommand extends Command {
             xpAmount = 0;
 
         EmbedBuilder embed = new EmbedBuilder()
-                .setTitle(msg.getAuthor().getName() + "#" + msg.getAuthor().getDiscriminator())
+                .setTitle(m.getUser().getName() + "#" + m.getUser().getDiscriminator())
                 .setDescription(xpAmount + "XP")
                 .setColor(Main.accentColor);
 
