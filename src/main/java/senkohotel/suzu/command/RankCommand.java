@@ -25,6 +25,7 @@ public class RankCommand extends Command {
         boolean ignoreXP = hasArgument("--ignore-xp", args);
         boolean allRoles = hasArgument("--all-roles", args);
         boolean noXP = hasArgument("--no-xp", args);
+        boolean ignoreCollectedRoles = hasArgument("--ignore-collected", args); // shows all roles even if you already collected them
 
         if (xpAmount == 0 || ignoreXP) {
             MessageUtils.reply(msg, "You have not collected any xp yet! Chat a bit to get some xp!\nIf you already have xp on tatsu you can use `suzu tatsuimport` to import you tatsu score");
@@ -41,7 +42,7 @@ public class RankCommand extends Command {
 
         String nextRoles = "";
         for (XPRole role : XPCollection.roles) {
-            if (role.reqXP > xpAmount) {
+            if (role.reqXP > xpAmount || ignoreCollectedRoles) {
                 double percent = ((double) xpAmount / (double) role.reqXP) * 100;
                 nextRoles += role.roleIcon + " " + msg.getGuild().getRoleById(role.roleID).getName() + " - " + percent + "% (" + (role.reqXP - xpAmount) + "XP left)\n";
             }
