@@ -2,10 +2,7 @@ package senkohotel.suzu.commands;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import senkohotel.suzu.Main;
-import senkohotel.suzu.command.HelpCommand;
-import senkohotel.suzu.command.LeaderboardCommand;
-import senkohotel.suzu.command.RankCommand;
-import senkohotel.suzu.command.TatsuImportCommand;
+import senkohotel.suzu.command.*;
 
 import java.util.Arrays;
 import java.util.TreeMap;
@@ -19,6 +16,7 @@ public class CommandList {
         addCommand(new RankCommand());
         addCommand(new LeaderboardCommand());
         addCommand(new TatsuImportCommand());
+        addCommand(new ImageCommand());
     }
 
     static void addCommand(Command cmd) {
