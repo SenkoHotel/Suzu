@@ -43,7 +43,10 @@ public class RankCommand extends Command {
         boolean ignoreCollectedRoles = hasArgument("--ignore-collected", args); // shows all roles even if you already collected them
 
         if (xpAmount == 0 || ignoreXP) {
-            MessageUtils.reply(msg, "You have not collected any xp yet! Chat a bit to get some xp!\nIf you already have xp on tatsu you can use `suzu tatsuimport` to import you tatsu score");
+            if (m != msg.getMember())
+                MessageUtils.reply(msg, "That user has not collected any xp yet!");
+            else
+                MessageUtils.reply(msg, "You have not collected any xp yet! Chat a bit to get some xp!\nIf you already have xp on tatsu you can use `suzu tatsuimport` to import you tatsu score");
             return;
         }
 
