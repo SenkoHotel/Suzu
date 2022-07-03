@@ -9,6 +9,9 @@ import senkohotel.suzu.utils.MessageUtils;
 import senkohotel.suzu.xp.XPCollection;
 import senkohotel.suzu.xp.XPRole;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class RankCommand extends Command {
     public RankCommand() {
         super();
@@ -61,8 +64,9 @@ public class RankCommand extends Command {
         String nextRoles = "";
         for (XPRole role : XPCollection.roles) {
             if (role.reqXP > xpAmount || ignoreCollectedRoles) {
-                double percent = ((double) xpAmount / (double) role.reqXP) * 100;
-                nextRoles += role.roleIcon + " " + msg.getGuild().getRoleById(role.roleID).getName() + " - " + percent + "% (" + (role.reqXP - xpAmount) + "XP left)\n";
+                float percent = ((float) xpAmount / (float) role.reqXP) * 100;
+                NumberFormat formatter = new DecimalFormat("#0.00");
+                nextRoles += role.roleIcon + " " + msg.getGuild().getRoleById(role.roleID).getName() + " - " + formatter.format(percent) + "% (" + (role.reqXP - xpAmount) + "XP left)\n";
             }
         }
 
