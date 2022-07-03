@@ -1,7 +1,9 @@
 package senkohotel.suzu.command;
 
 import com.google.gson.JsonParser;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import senkohotel.suzu.Main;
 import senkohotel.suzu.commands.Command;
 import senkohotel.suzu.utils.DBUtils;
 import senkohotel.suzu.utils.MessageUtils;
@@ -27,30 +29,44 @@ public class TatsuImportCommand extends Command {
     public void exec(MessageReceivedEvent msg, String[] args) {
         super.exec(msg, args);
 
+        boolean ignorexp = hasArgument("--ignore-xp", args);
+        boolean newuser = hasArgument("--new-user", args);
+        boolean forceThrow = hasArgument("--force-throw", args);
+
+        EmbedBuilder embed = new EmbedBuilder().setColor(Main.accentColor);
+
         try {
+            if (forceThrow)
+                throw new Exception("Debug Throw");
+
             HttpRequest req = HttpRequest.newBuilder().uri(new URI("https://api.tatsu.gg/v1/guilds/791993321374613514/rankings/members/" + msg.getMember().getId() + "/all")).GET().header("Authorization", JsonParser.parseString(Files.readString(Path.of("config/suzu.json"))).getAsJsonObject().get("tatsuAPI").getAsString()).build();
-            HttpResponse client = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> client = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
 
-            int score = JsonParser.parseString(client.body().toString()).getAsJsonObject().get("score").getAsInt();
+            int score = JsonParser.parseString(client.body()).getAsJsonObject().get("score").getAsInt();
 
-            if (XPCollection.users.containsKey(msg.getAuthor().getId())) {
-                if (score > XPCollection.users.get(msg.getAuthor().getId()).xp) {
+            if (XPCollection.users.containsKey(msg.getAuthor().getId()) && !newuser) {
+                if (score > XPCollection.users.get(msg.getAuthor().getId()).xp || ignorexp) {
                     XPCollection.users.get(msg.getAuthor().getId()).setXP(score);
                     DBUtils.updateXP(score, msg.getAuthor().getId());
-                    MessageUtils.reply(msg, "Imported " + score + "XP from tatsu!");
+                    embed.setTitle("Done!");
+                    embed.setTitle("Imported " + score + "XP from tatsu!");
                 } else {
-                    MessageUtils.reply(msg, "You already have more XP than the tatsu api!");
+                    embed.setTitle("You already have more XP than the tatsu api!");
                 }
             } else {
                 XPUser newUser = new XPUser();
                 newUser.setXP(score);
                 DBUtils.insertNewUser(score, msg.getAuthor().getId());
                 XPCollection.users.put(msg.getAuthor().getId(), newUser);
-                MessageUtils.reply(msg, "Imported " + score + "XP from tatsu!");
+                embed.setTitle("Done!");
+                embed.setTitle("Imported " + score + "XP from tatsu!");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            MessageUtils.reply(msg, "Something went wrong while importing!");
+            embed.setTitle("Something went wrong while importing!");
+            embed.setColor(0xFF5555);
         }
+
+        MessageUtils.reply(msg, embed);
     }
 }
