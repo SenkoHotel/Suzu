@@ -7,6 +7,8 @@ import senkohotel.suzu.Main;
 import senkohotel.suzu.commands.Command;
 import senkohotel.suzu.utils.DBUtils;
 import senkohotel.suzu.utils.MessageUtils;
+import senkohotel.suzu.xp.XPCollection;
+import senkohotel.suzu.xp.XPRole;
 
 import java.sql.ResultSet;
 
@@ -75,21 +77,10 @@ public class LeaderboardCommand extends Command {
     }
 
     String getRoleIcon(int xp) {
-        if (xp >= 100000)
-            return "<:SK_stronk:792073244156231710>";
-        if (xp >= 50000)
-            return "<:rubyTail:992862737476632616>";
-        if (xp >= 25000)
-            return "<:platinumTail:992862743793246261>";
-        if (xp >= 10000)
-            return "<:goldTail:992862738634244146>";
-        if (xp >= 5000)
-            return "<:silverTail:992862742790811758>";
-        if (xp >= 2500)
-            return "<:bronzeTail:992862740249055252>";
-        if (xp >= 1000)
-            return "<:classicTail:992862741561868388>";
-        else
-            return "";
+        for (XPRole role : XPCollection.roles) {
+            if (xp > role.reqXP)
+                return role.roleIcon;
+        }
+        return "";
     }
 }
