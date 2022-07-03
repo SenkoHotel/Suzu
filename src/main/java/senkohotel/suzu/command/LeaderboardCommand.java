@@ -22,11 +22,13 @@ public class LeaderboardCommand extends Command {
     public void exec(MessageReceivedEvent msg, String[] args) {
         super.exec(msg, args);
 
-        int count = 10;
+        int page = 1;
         try {
-            count = Integer.parseInt(args[0]);
-            if (count > 20)
-                count = 20;
+            page = Integer.parseInt(args[0]);
+            if (page > 10)
+                page = 10;
+            if (page < 1)
+                page = 0;
         } catch (Exception ex) {
             // do nothing i guess...?
         }
@@ -35,32 +37,33 @@ public class LeaderboardCommand extends Command {
             ResultSet rs = DBUtils.getTop();
 
             EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle("Top " + count + " Users")
-                    .setColor(Main.accentColor);
+                    .setTitle("Top Users - Page " + page)
+                    .setColor(Main.accentColor)
+                    .setFooter("use 'suzu top <1-10>' to cycle between pages");
 
             int i = 0;
             while (rs.next()) {
-                if (i >= count)
-                    break;
-
                 i++;
-                try {
-                    Member m;
-                    m = msg.getGuild().getMemberById(rs.getString("userid"));
-                    if (m == null)
-                        m = msg.getGuild().retrieveMemberById(rs.getString("userid")).complete();
 
-                    embed.addField(
-                            "#" + i + " - " + m.getUser().getName() + "#" + m.getUser().getDiscriminator() + " " + getRoleIcon(rs.getInt("xp")),
-                            rs.getInt("xp") + "XP",
-                            count > 10
-                    );
-                } catch (Exception ex) {
-                    embed.addField(
-                            "bruh",
-                            "nice one flux, something went wrong getting the user data",
-                            false
-                    );
+                if (!(i > page * 10 || i < 10 * (page - 1))) {
+                    try {
+                        Member m;
+                        m = msg.getGuild().getMemberById(rs.getString("userid"));
+                        if (m == null)
+                            m = msg.getGuild().retrieveMemberById(rs.getString("userid")).complete();
+
+                        embed.addField(
+                                "#" + i + " - " + m.getUser().getName() + "#" + m.getUser().getDiscriminator() + " " + getRoleIcon(rs.getInt("xp")),
+                                rs.getInt("xp") + "XP",
+                                false
+                        );
+                    } catch (Exception ex) { // probably didnt find member
+                        embed.addField(
+                                rs.getString("userid"),
+                                rs.getInt("xp") + "XP",
+                                false
+                        );
+                    }
                 }
             }
 
