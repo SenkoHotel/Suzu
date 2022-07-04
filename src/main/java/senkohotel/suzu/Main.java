@@ -11,17 +11,21 @@ import senkohotel.suzu.xp.XPCollection;
 import javax.security.auth.login.LoginException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.EnumSet;
 
 public class Main {
     public static String[] prefix = {"suzu ", "s."};
     public static JDA bot;
     public static int accentColor = 0xdda389;
+    public static Date startTime;
 
     public static void main(String[] args) throws LoginException {
         CommandList.initList();
         XPCollection.initRoleList();
         XPCollection.loadUsers();
+
+        startTime = Date.from(new Date().toInstant());
 
         JDABuilder jda = JDABuilder.createDefault(loadToken());
         jda.enableIntents(EnumSet.allOf(GatewayIntent.class));
