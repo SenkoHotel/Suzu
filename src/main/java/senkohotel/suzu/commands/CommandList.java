@@ -1,7 +1,6 @@
 package senkohotel.suzu.commands;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import senkohotel.suzu.Main;
 import senkohotel.suzu.command.*;
 
 import java.util.Arrays;
@@ -26,8 +25,8 @@ public class CommandList {
         commands.put(cmd.name, cmd);
     }
 
-    public static void check(MessageReceivedEvent msg) {
-        String[] args = msg.getMessage().getContentRaw().substring(Main.prefix.length()).split(" ");
+    public static void check(MessageReceivedEvent msg, String prefix) {
+        String[] args = msg.getMessage().getContentRaw().substring(prefix.length()).split(" ");
 
         if (args.length > 0)
             exec(msg, args);

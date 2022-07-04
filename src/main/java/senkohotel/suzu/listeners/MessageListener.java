@@ -10,9 +10,16 @@ import senkohotel.suzu.xp.XPCollection;
 public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent msg) {
         String content = msg.getMessage().getContentRaw().toLowerCase();
-        if (content.startsWith(Main.prefix)) {
-            CommandList.check(msg);
-        } else {
+
+        boolean usedCommand = false;
+        for (String prefix : Main.prefix) {
+            if (content.startsWith(prefix)) {
+                usedCommand = true;
+                CommandList.check(msg, prefix);
+            }
+        }
+
+        if (!usedCommand) {
             XPCollection.gainXP(msg);
         }
     }
