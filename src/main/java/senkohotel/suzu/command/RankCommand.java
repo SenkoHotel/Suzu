@@ -56,8 +56,16 @@ public class RankCommand extends Command {
         if (noXP)
             xpAmount = 0;
 
+        String title = m.getUser().getName() + "#" + m.getUser().getDiscriminator();
+
+        for (XPRole role : XPCollection.roles) {
+            if (xpAmount > role.reqXP)
+                title += " " + role.roleIcon;
+        }
+
         EmbedBuilder embed = new EmbedBuilder()
-                .setTitle(m.getUser().getName() + "#" + m.getUser().getDiscriminator())
+                .setTitle(title)
+                .setThumbnail(m.getUser().getAvatarUrl())
                 .setDescription(xpAmount + "XP")
                 .setColor(Main.accentColor);
 
