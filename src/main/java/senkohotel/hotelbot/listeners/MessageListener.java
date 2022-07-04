@@ -9,8 +9,9 @@ import senkohotel.hotelbot.commands.CommandList;
 public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent msg) {
         String content = msg.getMessage().getContentRaw().toLowerCase();
-        if (content.startsWith(Main.prefix)) {
-            CommandList.check(msg);
+        for (String prefix : Main.prefix) {
+            if (content.startsWith(prefix))
+                CommandList.check(msg, prefix);
         }
     }
 }

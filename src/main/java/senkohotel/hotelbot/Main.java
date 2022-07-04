@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.util.EnumSet;
 
 public class Main {
-    public static String prefix = "";
+    public static String[] prefix = {""};
     public static JDA bot;
     public static int accentColor = 0xFFFFFF;
 

@@ -22,8 +22,8 @@ public class CommandList {
         commands.put(cmd.name, cmd);
     }
 
-    public static void check(MessageReceivedEvent msg) {
-        String[] args = msg.getMessage().getContentRaw().substring(Main.prefix.length()).split(" ");
+    public static void check(MessageReceivedEvent msg, String prefix) {
+        String[] args = msg.getMessage().getContentRaw().substring(prefix.length()).split(" ");
 
         if (args.length > 0)
             exec(msg, args);
