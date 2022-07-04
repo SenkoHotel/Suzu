@@ -77,10 +77,11 @@ public class LeaderboardCommand extends Command {
     }
 
     String getRoleIcon(int xp) {
+        String roleIcon = "";
         for (XPRole role : XPCollection.roles) {
             if (xp > role.reqXP)
-                return role.roleIcon;
+                roleIcon = role.roleIcon;
         }
-        return "";
+        return roleIcon;
     }
 }
