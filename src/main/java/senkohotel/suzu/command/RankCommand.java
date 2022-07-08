@@ -9,6 +9,7 @@ import senkohotel.suzu.utils.MessageUtils;
 import senkohotel.suzu.xp.XPCollection;
 import senkohotel.suzu.xp.XPRole;
 
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -58,20 +59,24 @@ public class RankCommand extends Command {
 
         String title = m.getUser().getName() + "#" + m.getUser().getDiscriminator();
 
+        Color topRoleColor = new Color(Main.accentColor); // the embeds color, if no role is found, it uses the bots default color
         for (XPRole role : XPCollection.roles) {
-            if (xpAmount > role.reqXP)
+            if (xpAmount > role.reqXP) {
                 title += " " + role.roleIcon;
+                topRoleColor = msg.getGuild().getRoleById(role.roleID).getColor();
+            }
         }
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle(title)
                 .setThumbnail(m.getUser().getAvatarUrl())
                 .setDescription(xpAmount + "XP")
-                .setColor(Main.accentColor);
+                .setColor(topRoleColor);
 
         String nextRoles = "";
         for (XPRole role : XPCollection.roles) {
             if (role.reqXP > xpAmount || ignoreCollectedRoles) {
+
                 float percent = ((float) xpAmount / (float) role.reqXP) * 100;
                 NumberFormat formatter = new DecimalFormat("#0.00");
                 nextRoles += role.roleIcon + " " + msg.getGuild().getRoleById(role.roleID).getName() + " - " + formatter.format(percent) + "% (" + (role.reqXP - xpAmount) + "XP left)\n";
