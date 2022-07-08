@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import senkohotel.suzu.commands.CommandList;
 import senkohotel.suzu.listeners.MessageListener;
+import senkohotel.suzu.listeners.ReadyListener;
 import senkohotel.suzu.xp.XPCollection;
 
 import javax.security.auth.login.LoginException;
@@ -21,17 +22,18 @@ public class Main {
     public static Date startTime;
 
     public static void main(String[] args) throws LoginException {
+        startTime = Date.from(new Date().toInstant());
+
         CommandList.initList();
         XPCollection.initRoleList();
         XPCollection.loadUsers();
-
-        startTime = Date.from(new Date().toInstant());
 
         JDABuilder jda = JDABuilder.createDefault(loadToken());
         jda.enableIntents(EnumSet.allOf(GatewayIntent.class));
         jda.setRawEventsEnabled(true);
         bot = jda.build();
         bot.addEventListener(new MessageListener());
+        bot.addEventListener(new ReadyListener());
     }
 
     static String loadToken() {
