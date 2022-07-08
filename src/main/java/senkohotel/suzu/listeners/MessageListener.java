@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import senkohotel.suzu.Main;
 import senkohotel.suzu.commands.CommandList;
+import senkohotel.suzu.utils.MessageUtils;
 import senkohotel.suzu.xp.XPCollection;
 
 public class MessageListener extends ListenerAdapter {
@@ -15,7 +16,14 @@ public class MessageListener extends ListenerAdapter {
         for (String prefix : Main.prefix) {
             if (content.startsWith(prefix)) {
                 usedCommand = true;
-                CommandList.check(msg, prefix);
+                if (msg.getChannelType().isGuild()) {
+                    if (msg.getGuild().getId().equals("791993321374613514"))
+                        CommandList.check(msg, prefix);
+                    else
+                        MessageUtils.reply(msg, "Did you know this bot was made for another server?\nSo you can't use this here.");
+                } else {
+                    MessageUtils.reply(msg, "No you cant use commands outside of a server.");
+                }
             }
         }
 

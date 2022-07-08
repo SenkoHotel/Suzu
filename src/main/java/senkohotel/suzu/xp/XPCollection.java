@@ -3,6 +3,7 @@ package senkohotel.suzu.xp;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import senkohotel.suzu.utils.DBUtils;
+import senkohotel.suzu.utils.MessageUtils;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -27,11 +28,16 @@ public class XPCollection {
     public static void gainXP(@NotNull MessageReceivedEvent msg) {
         if (msg.getAuthor().isBot())
             return;
-        if (!msg.getChannelType().isGuild())
+        if (!msg.getChannelType().isGuild()) {
+            MessageUtils.reply(msg, "I dunno what you're trying to do, but you cant collect xp in DMs.");
             return;
+        } else {
+            if (!msg.getGuild().getId().equals("791993321374613514"))
+                return; // not senkohotel lol
+        }
 
         Random rn = new Random();
-        int gainedXP =  rn.nextInt((20 - 10) + 1) + 10;
+        int gainedXP = rn.nextInt((20 - 10) + 1) + 10;
 
         if (users.containsKey(msg.getAuthor().getId())) {
             users.get(msg.getAuthor().getId()).addXP(gainedXP, msg);
