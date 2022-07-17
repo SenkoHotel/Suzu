@@ -47,7 +47,7 @@ public class LeaderboardCommand extends Command {
             while (rs.next()) {
                 i++;
 
-                if (!(i > page * 10 || i < 10 * (page - 1))) {
+                if (!(i > page * 10 || i < (10 * (page - 1) + 1))) {
                     try {
                         Member m;
                         m = msg.getGuild().getMemberById(rs.getString("userid"));
@@ -61,7 +61,7 @@ public class LeaderboardCommand extends Command {
                         );
                     } catch (Exception ex) { // probably didnt find member
                         embed.addField(
-                                rs.getString("userid"),
+                                "#" + i + " - " + rs.getString("userid") + " " + getRoleIcon(rs.getInt("xp")),
                                 rs.getInt("xp") + "XP",
                                 false
                         );
