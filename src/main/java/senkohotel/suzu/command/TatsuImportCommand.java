@@ -56,7 +56,7 @@ public class TatsuImportCommand extends Command {
             } else {
                 XPUser newUser = new XPUser();
                 newUser.setXP(score);
-                DBUtils.insertNewUser(score, msg.getAuthor().getId());
+                DBUtils.insertNewUser(score, msg.getAuthor().getId(), msg.getAuthor().getName() + "#" + msg.getAuthor().getDiscriminator());
                 XPCollection.users.put(msg.getAuthor().getId(), newUser);
                 embed.setTitle("Done!");
                 embed.setTitle("Imported " + score + "XP from tatsu!");

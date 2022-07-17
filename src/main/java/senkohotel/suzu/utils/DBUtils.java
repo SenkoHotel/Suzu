@@ -17,7 +17,11 @@ public class DBUtils {
         return SuzuDB.execQuery("UPDATE `suzu` SET `xp` = '" + xp + "' WHERE `suzu`.`userid` = '" + id + "'");
     }
 
-    public static ResultSet insertNewUser(int xp, String id) {
-        return SuzuDB.execQuery("INSERT INTO `suzu` (`userid`, `xp`) VALUES ('" + id + "', '" + xp + "')");
+    public static ResultSet updateUsername(String name, String id) {
+        return SuzuDB.execQuery("UPDATE `suzu` SET `username` = '" + name + "' WHERE `suzu`.`userid` = '" + id + "'");
+    }
+
+    public static ResultSet insertNewUser(int xp, String id, String name) {
+        return SuzuDB.execQuery("INSERT INTO `suzu` (`userid`, `xp`, `username`) VALUES ('" + id + "', '" + xp + "', '" + name + "')");
     }
 }

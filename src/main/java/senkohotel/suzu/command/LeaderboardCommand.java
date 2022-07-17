@@ -60,8 +60,13 @@ public class LeaderboardCommand extends Command {
                                 false
                         );
                     } catch (Exception ex) { // probably didnt find member
+                        String name = rs.getString("username");
+
+                        if (name == null || name.isEmpty())
+                            name = rs.getString("userid");
+
                         embed.addField(
-                                "#" + i + " - " + rs.getString("userid") + " " + getRoleIcon(rs.getInt("xp")),
+                                "#" + i + " - (left) " + name + " " + getRoleIcon(rs.getInt("xp")),
                                 rs.getInt("xp") + "XP",
                                 false
                         );

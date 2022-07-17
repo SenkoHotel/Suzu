@@ -27,6 +27,7 @@ public class XPUser {
 
         xp += amount;
         DBUtils.updateXP(xp, msg.getAuthor().getId());
+        DBUtils.updateUsername(msg.getAuthor().getName() + "#" + msg.getAuthor().getDiscriminator(), msg.getAuthor().getId());
         checkForNewRoles(msg);
     }
 

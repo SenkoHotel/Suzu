@@ -44,7 +44,7 @@ public class XPCollection {
         } else {
             XPUser newuser = new XPUser();
             newuser.setXP(gainedXP);
-            DBUtils.insertNewUser(gainedXP, msg.getAuthor().getId());
+            DBUtils.insertNewUser(gainedXP, msg.getAuthor().getId(), msg.getAuthor().getName() + "#" + msg.getAuthor().getDiscriminator());
             users.put(msg.getAuthor().getId(), newuser);
         }
     }
