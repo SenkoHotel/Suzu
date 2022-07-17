@@ -1,4 +1,4 @@
-package senkohotel.suzu.utils;
+package senkohotel.suzu.util;
 
 public class TimeUtils {
     // hours, minutes, seconds

@@ -1,11 +1,11 @@
-package senkohotel.suzu.command;
+package senkohotel.hotelbot.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import senkohotel.suzu.Main;
-import senkohotel.suzu.commands.Command;
-import senkohotel.suzu.commands.CommandList;
-import senkohotel.suzu.utils.MessageUtils;
+import senkohotel.hotelbot.Main;
+import senkohotel.hotelbot.commands.Command;
+import senkohotel.hotelbot.commands.CommandList;
+import senkohotel.hotelbot.utils.MessageUtils;
 
 import java.util.Map;
 

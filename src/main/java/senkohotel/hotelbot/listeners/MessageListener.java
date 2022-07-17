@@ -1,11 +1,11 @@
-package senkohotel.suzu.listeners;
+package senkohotel.hotelbot.listeners;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-import senkohotel.suzu.Main;
-import senkohotel.suzu.commands.CommandList;
-import senkohotel.suzu.utils.MessageUtils;
+import senkohotel.hotelbot.Main;
+import senkohotel.hotelbot.commands.CommandList;
+import senkohotel.hotelbot.utils.MessageUtils;
 import senkohotel.suzu.xp.XPCollection;
 
 public class MessageListener extends ListenerAdapter {

@@ -1,11 +1,11 @@
-package senkohotel.suzu;
+package senkohotel.hotelbot;
 
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import senkohotel.suzu.commands.CommandList;
-import senkohotel.suzu.listeners.MessageListener;
+import senkohotel.hotelbot.commands.CommandList;
+import senkohotel.hotelbot.listeners.MessageListener;
 import senkohotel.suzu.listeners.ReadyListener;
 import senkohotel.suzu.xp.XPCollection;
 

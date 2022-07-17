@@ -2,8 +2,8 @@ package senkohotel.suzu.xp;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import senkohotel.suzu.utils.DBUtils;
-import senkohotel.suzu.utils.MessageUtils;
+import senkohotel.hotelbot.utils.MessageUtils;
+import senkohotel.suzu.util.DBUtils;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

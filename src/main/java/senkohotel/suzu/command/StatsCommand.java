@@ -2,10 +2,10 @@ package senkohotel.suzu.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import senkohotel.suzu.Main;
-import senkohotel.suzu.commands.Command;
-import senkohotel.suzu.utils.MessageUtils;
-import senkohotel.suzu.utils.TimeUtils;
+import senkohotel.hotelbot.Main;
+import senkohotel.hotelbot.commands.Command;
+import senkohotel.hotelbot.utils.MessageUtils;
+import senkohotel.suzu.util.TimeUtils;
 import senkohotel.suzu.xp.XPCollection;
 import senkohotel.suzu.xp.XPUser;
 

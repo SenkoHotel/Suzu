@@ -1,6 +1,7 @@
-package senkohotel.suzu.commands;
+package senkohotel.hotelbot.commands;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import senkohotel.hotelbot.command.HelpCommand;
 import senkohotel.suzu.command.*;
 
 import java.util.Arrays;

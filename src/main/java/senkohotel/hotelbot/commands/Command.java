@@ -1,4 +1,4 @@
-package senkohotel.suzu.commands;
+package senkohotel.hotelbot.commands;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
