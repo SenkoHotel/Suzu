@@ -5,11 +5,14 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import senkohotel.suzu.Main;
 import senkohotel.suzu.commands.Command;
+import senkohotel.suzu.utils.DBUtils;
 import senkohotel.suzu.utils.MessageUtils;
 import senkohotel.suzu.xp.XPCollection;
 import senkohotel.suzu.xp.XPRole;
 
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -67,10 +70,26 @@ public class RankCommand extends Command {
             }
         }
 
+        String rank = "";
+
+        try {
+            ResultSet rs = DBUtils.getTop();
+            int i = 0;
+            while (rs.next()) {
+                i++;
+                if (rs.getString("userid").equals(m.getUser().getId())) {
+                    rank = " | #" + i;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle(title)
                 .setThumbnail(m.getUser().getAvatarUrl())
-                .setDescription(xpAmount + "XP")
+                .setDescription(xpAmount + "XP" + rank)
                 .setColor(topRoleColor);
 
         String nextRoles = "";
@@ -88,6 +107,7 @@ public class RankCommand extends Command {
         }
 
         embed.addField("Next Roles", nextRoles, false);
+
         MessageUtils.reply(msg, embed);
     }
 }
