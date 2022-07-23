@@ -15,6 +15,7 @@ dependencies {
     compile 'com.zaxxer:HikariCP:5.0.1'
     compile 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
     compile 'org.reflections:reflections:0.10.2'
+    compile 'ch.qos.logback:logback-classic:1.2.11'
 }
 
 jar {

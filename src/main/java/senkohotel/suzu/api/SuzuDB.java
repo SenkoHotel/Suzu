@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import senkohotel.hotelbot.Main;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,7 +29,7 @@ public class SuzuDB {
             config.setDataSourceClassName("org.mariadb.jdbc.MariaDbDataSource");
             return new HikariDataSource(config);
         } catch (Exception ex) {
-            System.out.println("Couldn't initialize the DataBase!");
+            Main.LOG.error("Failed to load database!");
             ex.printStackTrace();
             System.exit(1);
         }
@@ -44,7 +45,7 @@ public class SuzuDB {
             ds.close();
             return rs;
         } catch (Exception ex) {
-            System.out.println("[DataBase] Couldn't execute query '" + query + "'");
+            Main.LOG.error("Couldn't execute query: " + query);
             ex.printStackTrace();
             return null;
         }

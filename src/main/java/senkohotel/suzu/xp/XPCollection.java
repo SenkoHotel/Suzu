@@ -2,6 +2,7 @@ package senkohotel.suzu.xp;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import senkohotel.hotelbot.Main;
 import senkohotel.hotelbot.utils.MessageUtils;
 import senkohotel.suzu.util.DBUtils;
 
@@ -21,7 +22,7 @@ public class XPCollection {
         try {
             while (rs.next()) {
                 roles.add(new XPRole(rs.getInt("xp"), rs.getString("id"), rs.getString("icon")));
-                System.out.println(
+                Main.LOG.debug(
                         "Added role: " + rs.getString("id")
                                 + " with xp: " + rs.getInt("xp")
                                 + " and icon: " + rs.getString("icon"));

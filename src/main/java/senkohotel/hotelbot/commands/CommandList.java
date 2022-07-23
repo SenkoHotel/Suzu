@@ -3,6 +3,7 @@ package senkohotel.hotelbot.commands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.reflections.Reflections;
+import senkohotel.hotelbot.Main;
 import senkohotel.hotelbot.utils.MessageUtils;
 
 import java.util.Arrays;
@@ -20,7 +21,7 @@ public class CommandList {
             try {
                 addCommand(cmd.getConstructor().newInstance());
             } catch (Exception e) {
-                System.out.println("Couldn't add command " + cmd.getName());
+                Main.LOG.error("Couldn't add command " + cmd.getName());
                 e.printStackTrace();
             }
         }
@@ -31,7 +32,7 @@ public class CommandList {
             return;
 
         commands.put(cmd.name, cmd);
-        System.out.println("Added command " + cmd.name);
+        Main.LOG.debug("Added command " + cmd.name);
     }
 
     public static void check(MessageReceivedEvent msg, String prefix) {

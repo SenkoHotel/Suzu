@@ -10,6 +10,6 @@ public class ReadyListener extends ListenerAdapter {
     public void onReady(@NotNull ReadyEvent event) {
         long secs = (System.currentTimeMillis() - Main.startTime.getTime()) / 1000;
         long ms = (System.currentTimeMillis() - Main.startTime.getTime()) - (secs * 1000);
-        System.out.println("Started in " + secs + "s and " + ms + "ms!");
+        Main.LOG.info("Started in " + secs + "s and " + ms + "ms!");
     }
 }

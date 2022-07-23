@@ -4,6 +4,8 @@ import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import senkohotel.hotelbot.commands.CommandList;
 import senkohotel.hotelbot.listeners.MessageListener;
 import senkohotel.suzu.listeners.ReadyListener;
@@ -20,6 +22,7 @@ public class Main {
     public static JDA bot;
     public static int accentColor = 0xdda389;
     public static Date startTime;
+    public static Logger LOG = LoggerFactory.getLogger("suzu");
 
     public static void main(String[] args) throws LoginException {
         startTime = Date.from(new Date().toInstant());
@@ -40,7 +43,7 @@ public class Main {
         try {
             return JsonParser.parseString(Files.readString(Path.of("config/suzu.json"))).getAsJsonObject().get("token").getAsString();
         } catch (Exception ex) {
-            System.out.println("Failed to load token");
+            LOG.error("Failed to load token!");
             return "";
         }
     }
