@@ -1,6 +1,7 @@
 package senkohotel.suzu.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import senkohotel.hotelbot.Main;
@@ -108,6 +109,20 @@ public class RankCommand extends Command {
 
         embed.addField("Next Roles", nextRoles, false);
 
-        MessageUtils.reply(msg, embed);
+        MessageBuilder message = new MessageBuilder()
+                .setEmbeds(embed.build());
+
+        ResultSet noficiations = DBUtils.getNotifications(msg.getAuthor().getId());
+        int notifCount = 0;
+
+        while (noficiations.next()) {
+            notifCount++;
+        }
+
+        if (notifCount != 0) {
+            message.setContent(msg.getAuthor().getAsMention() + " You have " + notifCount + " notifications! (use `suzu notifications` to see them)");
+        }
+
+        MessageUtils.reply(msg, message);
     }
 }

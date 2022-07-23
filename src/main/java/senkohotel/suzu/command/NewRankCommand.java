@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class NewRankCommand extends Command {
     public NewRankCommand() {
-        name = "rank";
+        name = "rank2";
     }
 
     @Override

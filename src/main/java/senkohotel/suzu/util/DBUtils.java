@@ -25,8 +25,15 @@ public class DBUtils {
         return SuzuDB.execQuery("INSERT INTO `ranks` (`userid`, `xp`, `username`) VALUES ('" + id + "', '" + xp + "', '" + name + "')");
     }
 
-
     public static ResultSet getRoles() {
         return SuzuDB.execQuery("SELECT * FROM `roles` ORDER BY `xp` ASC");
+    }
+
+    public static ResultSet getNotifications(String id) {
+        return SuzuDB.execQuery("SELECT * FROM `notifications` WHERE `uid` = '" + id + "'");
+    }
+
+    public static ResultSet clearNotifications(String id) {
+        return SuzuDB.execQuery("DELETE FROM `notifications` WHERE `notifications`.`uid` = '" + id + "'");
     }
 }
