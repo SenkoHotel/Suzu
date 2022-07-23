@@ -42,6 +42,12 @@ public class XPCollection {
                 return; // not senkohotel lol
         }
 
+        if (msg.getChannel().getId().equals("843148981939994624") ||
+                msg.getChannel().getId().equals("838037612371378186") ||
+                msg.getChannel().getId().equals("843149348756783144")) {
+            return; // dont collect xp in these channels
+        }
+
         Random rn = new Random();
         int gainedXP = rn.nextInt((20 - 10) + 1) + 10;
 
