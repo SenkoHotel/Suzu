@@ -9,7 +9,7 @@ public class Command {
 
     public Command() {}
 
-    public void exec(MessageReceivedEvent msg, String[] args) {
+    public void exec(MessageReceivedEvent msg, String[] args) throws Exception {
         msg.getChannel().sendTyping().complete();
     }
 
