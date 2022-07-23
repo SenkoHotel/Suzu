@@ -18,6 +18,7 @@ public class CommandList {
         addCommand(new TatsuImportCommand());
         addCommand(new ImageCommand());
         addCommand(new StatsCommand());
+//        addCommand(new NewRankCommand());
     }
 
     static void addCommand(Command cmd) {

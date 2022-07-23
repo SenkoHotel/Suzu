@@ -23,7 +23,7 @@ public class SuzuDB {
             config.addDataSourceProperty("port", 3306);
             config.setUsername(dbConf.get("dbUser").getAsString());
             config.setPassword(dbConf.get("dbPassword").getAsString());
-            config.setPoolName("suzu");
+            config.setPoolName("xp");
             config.setIdleTimeout(0);
             config.setDataSourceClassName("org.mariadb.jdbc.MariaDbDataSource");
             return new HikariDataSource(config);
