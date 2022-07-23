@@ -13,6 +13,7 @@ import java.net.URL;
 public class NewRankCommand extends Command {
     public NewRankCommand() {
         name = "rank2";
+        hidden = true;
     }
 
     @Override
