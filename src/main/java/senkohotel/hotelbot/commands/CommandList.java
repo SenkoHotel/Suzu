@@ -31,7 +31,7 @@ public class CommandList {
             return;
 
         commands.put(cmd.name, cmd);
-        System.out.println("Added command " + cmd.name);
+        Main.LOG.info("Added command " + cmd.name);
     }
 
     public static void check(MessageReceivedEvent msg, String prefix) {
