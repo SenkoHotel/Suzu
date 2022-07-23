@@ -1,10 +1,12 @@
 package senkohotel.hotelbot.commands;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import senkohotel.hotelbot.command.HelpCommand;
-import senkohotel.suzu.command.*;
+import org.reflections.Reflections;
+import senkohotel.hotelbot.utils.MessageUtils;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class CommandList {
@@ -12,13 +14,16 @@ public class CommandList {
     static TreeMap<String, Command> commands = new TreeMap<>();
 
     public static void initList() {
-        addCommand(new HelpCommand());
-        addCommand(new RankCommand());
-        addCommand(new LeaderboardCommand());
-        addCommand(new TatsuImportCommand());
-        addCommand(new ImageCommand());
-        addCommand(new StatsCommand());
-//        addCommand(new NewRankCommand());
+        Reflections reflections = new Reflections("senkohotel");
+        Set<Class<? extends Command>> classes = reflections.getSubTypesOf(Command.class);
+        for (Class<? extends Command> cmd : classes) {
+            try {
+                addCommand(cmd.getConstructor().newInstance());
+            } catch (Exception e) {
+                System.out.println("Couldn't add command " + cmd.getName());
+                e.printStackTrace();
+            }
+        }
     }
 
     static void addCommand(Command cmd) {
@@ -26,6 +31,7 @@ public class CommandList {
             return;
 
         commands.put(cmd.name, cmd);
+        System.out.println("Added command " + cmd.name);
     }
 
     public static void check(MessageReceivedEvent msg, String prefix) {
@@ -38,7 +44,17 @@ public class CommandList {
     static void exec(MessageReceivedEvent msg, String[] split) {
         if (commands.containsKey(split[0])) {
             String[] args = Arrays.copyOfRange(split, 1, split.length);
-            commands.get(split[0]).exec(msg, args);
+
+            try {
+                commands.get(split[0]).exec(msg, args);
+            } catch (Exception e) {
+                EmbedBuilder embed = new EmbedBuilder()
+                        .setTitle("Error")
+                        .setColor(0xFF5555)
+                        .setDescription("An error occured while executing the command!")
+                        .addField("Stacktrace", "```java\n" + e.toString() + "```", false);
+                MessageUtils.reply(msg, embed);
+            }
         }
     }
 

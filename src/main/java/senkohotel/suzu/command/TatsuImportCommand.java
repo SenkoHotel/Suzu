@@ -26,7 +26,7 @@ public class TatsuImportCommand extends Command {
     }
 
     @Override
-    public void exec(MessageReceivedEvent msg, String[] args) {
+    public void exec(MessageReceivedEvent msg, String[] args) throws Exception {
         super.exec(msg, args);
 
         boolean ignorexp = hasArgument("--ignore-xp", args);

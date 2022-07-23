@@ -16,7 +16,7 @@ public class NewRankCommand extends Command {
     }
 
     @Override
-    public void exec(MessageReceivedEvent msg, String[] args) {
+    public void exec(MessageReceivedEvent msg, String[] args) throws Exception {
         super.exec(msg, args);
 
         try {
