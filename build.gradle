@@ -19,7 +19,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'senkohotel.suzu.Main'
+        attributes 'Main-Class': 'senkohotel.hotelbot.Main'
     }
 
     doFirst {
