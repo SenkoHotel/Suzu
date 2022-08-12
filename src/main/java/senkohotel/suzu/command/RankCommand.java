@@ -61,61 +61,60 @@ public class RankCommand extends Command {
         if (noXP)
             xpAmount = 0;
 
-        String title = m.getUser().getName() + "#" + m.getUser().getDiscriminator();
-
+        // badges and role color
+        String badges = "";
         Color topRoleColor = new Color(Main.accentColor); // the embeds color, if no role is found, it uses the bots default color
         for (XPRole role : XPCollection.roles) {
             if (xpAmount > role.reqXP) {
-                title += " " + role.roleIcon;
+                badges += role.roleIcon;
                 topRoleColor = msg.getGuild().getRoleById(role.roleID).getColor();
             }
         }
 
-        String rank = "";
-
+        // rank calculation
+        int rank = 0;
         try {
             ResultSet rs = DBUtils.getTop();
-            int i = 0;
             while (rs.next()) {
-                i++;
+                rank++;
                 if (rs.getString("userid").equals(m.getUser().getId())) {
-                    rank = " | #" + i;
+                    break;
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        EmbedBuilder embed = new EmbedBuilder()
-                .setTitle(title)
-                .setThumbnail(m.getUser().getAvatarUrl())
-                .setDescription(xpAmount + "XP" + rank)
-                .setColor(topRoleColor);
-
-        String nextRoles = "";
+        // next role
+        String nextRole = "";
         for (XPRole role : XPCollection.roles) {
             if (role.reqXP > xpAmount || ignoreCollectedRoles) {
-
                 float percent = ((float) xpAmount / (float) role.reqXP) * 100;
                 NumberFormat formatter = new DecimalFormat("#0.00");
-                nextRoles += role.roleIcon + " " + msg.getGuild().getRoleById(role.roleID).getName() + " - " + formatter.format(percent) + "% (" + (role.reqXP - xpAmount) + "XP left)\n";
+                nextRole += role.roleIcon + " " + formatter.format(percent) + "% (" + (role.reqXP - xpAmount) + "XP left)\n";
+                break;
             }
         }
 
-        if (nextRoles.equals("") || allRoles) {
-            nextRoles = "All roles collected!";
+        if (nextRole.equals("") || allRoles) {
+            nextRole = "All roles collected!";
         }
 
-        embed.addField("Next Roles", nextRoles, false);
+        EmbedBuilder embed = new EmbedBuilder()
+                .setAuthor(m.getUser().getName() + "#" + m.getUser().getDiscriminator(), null, m.getUser().getAvatarUrl())
+                .setColor(topRoleColor);
+
+        embed.addField("XP", xpAmount + "", true);
+        embed.addField("Rank", "#" + rank, true);
+        embed.addField("Next Role", nextRole, true);
 
         MessageBuilder message = new MessageBuilder()
                 .setEmbeds(embed.build());
 
-        ResultSet noficiations = DBUtils.getNotifications(msg.getAuthor().getId());
+        ResultSet notifications = DBUtils.getNotifications(msg.getAuthor().getId());
         int notifCount = 0;
 
-        while (noficiations.next()) {
+        while (notifications.next()) {
             notifCount++;
         }
 
