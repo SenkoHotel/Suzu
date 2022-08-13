@@ -5,25 +5,18 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import senkohotel.hotelbot.utils.MessageUtils;
 import senkohotel.suzu.util.DBUtils;
 
-import java.time.OffsetDateTime;
-
 public class XPUser {
     public int xp = 0;
-    OffsetDateTime lastXPTimestamp = null;
+    long lastXPTimestamp = 0;
 
     public XPUser () {}
 
     public void addXP (int amount, MessageReceivedEvent msg) {
-        if (lastXPTimestamp == null) {
-            lastXPTimestamp = msg.getMessage().getTimeCreated();
-        } else {
-            int timeOffset = msg.getMessage().getTimeCreated().getMinute() - lastXPTimestamp.getMinute();
-
-            if (timeOffset == 0)
-                return;
-
-            lastXPTimestamp = msg.getMessage().getTimeCreated();
+        if (System.currentTimeMillis() - lastXPTimestamp < 60000) {
+            return;
         }
+
+        lastXPTimestamp = System.currentTimeMillis();
 
         xp += amount;
         DBUtils.updateXP(xp, msg.getAuthor().getId());
