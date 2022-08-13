@@ -110,10 +110,10 @@ public class RankCommand extends Command {
                 .setAuthor(m.getUser().getName() + "#" + m.getUser().getDiscriminator(), null, m.getUser().getAvatarUrl())
                 .setColor(topRoleColor);
 
-        embed.addField("XP", xpAmount + "", true);
-        embed.addField("Rank", "#" + rank, true);
-        embed.addField("Next Role", nextRole, true);
-        embed.addField("Cooldown", cooldown + "s", true);
+        embed.addField("<:SK_mangaLaugh:792020838990872586> XP", xpAmount + "", true);
+        embed.addField("\u2b06\ufe0f Rank", "#" + rank, true);
+        embed.addField("\u23e9 Next Role", nextRole, true);
+        embed.addField("\uD83D\uDD50 Cooldown", cooldown + "s", true);
 
         MessageBuilder message = new MessageBuilder()
                 .setEmbeds(embed.build());
