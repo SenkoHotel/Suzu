@@ -62,11 +62,15 @@ public class XPCollection {
         }
     }
 
-    public static int getXPCount (String userid) {
+    public static int getXPCount(String userid) {
         if (users.containsKey(userid))
             return users.get(userid).xp;
         else
             return 0;
+    }
+
+    public static XPUser getXPUser(String userid) {
+        return users.getOrDefault(userid, null);
     }
 
     public static void loadUsers() {

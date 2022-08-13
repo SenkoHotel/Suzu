@@ -100,6 +100,12 @@ public class RankCommand extends Command {
             nextRole = "All roles collected!";
         }
 
+        // xp cooldown
+        int cooldown = (int) (60 - ((System.currentTimeMillis() - XPCollection.getXPUser(m.getUser().getId()).lastXPTimestamp) / 1000));
+
+        if (cooldown < 0)
+            cooldown = 0;
+
         EmbedBuilder embed = new EmbedBuilder()
                 .setAuthor(m.getUser().getName() + "#" + m.getUser().getDiscriminator(), null, m.getUser().getAvatarUrl())
                 .setColor(topRoleColor);
@@ -107,6 +113,7 @@ public class RankCommand extends Command {
         embed.addField("XP", xpAmount + "", true);
         embed.addField("Rank", "#" + rank, true);
         embed.addField("Next Role", nextRole, true);
+        embed.addField("Cooldown", cooldown + "s", true);
 
         MessageBuilder message = new MessageBuilder()
                 .setEmbeds(embed.build());

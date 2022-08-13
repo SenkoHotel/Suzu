@@ -7,7 +7,7 @@ import senkohotel.suzu.util.DBUtils;
 
 public class XPUser {
     public int xp = 0;
-    long lastXPTimestamp = 0;
+    public long lastXPTimestamp = 0;
 
     public XPUser () {}
 
