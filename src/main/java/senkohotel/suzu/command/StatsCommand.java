@@ -28,7 +28,7 @@ public class StatsCommand extends Command {
 
         int totalXP = 0;
         int users = 0;
-        embed.setFooter(TimeUtils.formatHMS((System.currentTimeMillis() - Main.startTime.getTime())) + " since startup");
+        embed.setFooter(TimeUtils.formatHMS((System.currentTimeMillis() - Main.startTime)) + " since startup");
 
         for (Map.Entry<String, XPUser> user : XPCollection.users.entrySet()) {
             users++;

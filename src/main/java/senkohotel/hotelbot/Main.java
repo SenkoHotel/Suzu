@@ -15,19 +15,21 @@ import senkohotel.suzu.listeners.ReadyListener;
 import javax.security.auth.login.LoginException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Date;
 import java.util.EnumSet;
 
 public class Main {
     public static String[] prefix = {"suzu ", "s."};
     public static JDA bot;
     public static int accentColor = 0xdda389;
-    public static Date startTime;
+    public static long startTime;
     public static Logger LOG = LoggerFactory.getLogger("suzu");
     public static boolean debug = false; // just adds the slash commands instantly
 
     public static void main(String[] args) throws LoginException {
+        startTime = System.currentTimeMillis();
+
         CommandList.initList();
+        SlashCommandList.initList();
 
         JDABuilder jda = JDABuilder.createDefault(loadToken());
         jda.enableIntents(EnumSet.allOf(GatewayIntent.class));
