@@ -21,8 +21,7 @@ public class CommandList {
             try {
                 addCommand(cmd.getConstructor().newInstance());
             } catch (Exception e) {
-                Main.LOG.error("Couldn't add command " + cmd.getName());
-                e.printStackTrace();
+                Main.LOG.error("Couldn't add command " + cmd.getName(), e);
             }
         }
     }
@@ -32,7 +31,7 @@ public class CommandList {
             return;
 
         commands.put(cmd.name, cmd);
-        Main.LOG.debug("Added command " + cmd.name);
+        Main.LOG.info("Added command " + cmd.name);
     }
 
     public static void check(MessageReceivedEvent msg, String prefix) {

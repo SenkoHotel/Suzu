@@ -7,9 +7,10 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import senkohotel.hotelbot.commands.CommandList;
+import senkohotel.hotelbot.commands.SlashCommandList;
 import senkohotel.hotelbot.listeners.MessageListener;
+import senkohotel.hotelbot.listeners.SlashCommandListener;
 import senkohotel.suzu.listeners.ReadyListener;
-import senkohotel.suzu.xp.XPCollection;
 
 import javax.security.auth.login.LoginException;
 import java.nio.file.Files;
@@ -23,13 +24,10 @@ public class Main {
     public static int accentColor = 0xdda389;
     public static Date startTime;
     public static Logger LOG = LoggerFactory.getLogger("suzu");
+    public static boolean debug = false; // just adds the slash commands instantly
 
     public static void main(String[] args) throws LoginException {
-        startTime = Date.from(new Date().toInstant());
-
         CommandList.initList();
-        XPCollection.initRoleList();
-        XPCollection.loadUsers();
 
         JDABuilder jda = JDABuilder.createDefault(loadToken());
         jda.enableIntents(EnumSet.allOf(GatewayIntent.class));
@@ -37,6 +35,9 @@ public class Main {
         bot = jda.build();
         bot.addEventListener(new MessageListener());
         bot.addEventListener(new ReadyListener());
+        bot.addEventListener(new SlashCommandListener());
+
+        SlashCommandList.initGlobal();
     }
 
     static String loadToken() {
