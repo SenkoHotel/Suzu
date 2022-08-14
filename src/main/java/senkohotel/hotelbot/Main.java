@@ -7,7 +7,9 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import senkohotel.hotelbot.commands.CommandList;
+import senkohotel.hotelbot.commands.SlashCommandList;
 import senkohotel.hotelbot.listeners.MessageListener;
+import senkohotel.hotelbot.listeners.SlashCommandListener;
 
 import javax.security.auth.login.LoginException;
 import java.nio.file.Files;
@@ -22,12 +24,14 @@ public class Main {
 
     public static void main(String[] args) throws LoginException {
         CommandList.initList();
+        SlashCommandList.initList();
 
         JDABuilder jda = JDABuilder.createDefault(loadToken());
         jda.enableIntents(EnumSet.allOf(GatewayIntent.class));
         jda.setRawEventsEnabled(true);
         bot = jda.build();
         bot.addEventListener(new MessageListener());
+        bot.addEventListener(new SlashCommandListener());
     }
 
     static String loadToken() {
