@@ -21,6 +21,7 @@ public class Main {
     public static JDA bot;
     public static int accentColor = 0xFFFFFF;
     public static Logger LOG = LoggerFactory.getLogger("hotelbot");
+    public static boolean debug = false; // just adds the slash commands instantly
 
     public static void main(String[] args) throws LoginException {
         CommandList.initList();
@@ -32,6 +33,8 @@ public class Main {
         bot = jda.build();
         bot.addEventListener(new MessageListener());
         bot.addEventListener(new SlashCommandListener());
+
+        SlashCommandList.initGlobal();
     }
 
     static String loadToken() {

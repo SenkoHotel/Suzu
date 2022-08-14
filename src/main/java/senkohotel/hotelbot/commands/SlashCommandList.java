@@ -41,6 +41,17 @@ public class SlashCommandList {
         gre.getGuild().updateCommands().addCommands(slashCommands).complete();
     }
 
+    public static void initGlobal() {
+        List<CommandData> slashCommands = new ArrayList<>();
+
+        for (Map.Entry<String, SlashCommand> entry : commands.entrySet()) {
+            SlashCommandData slashCommand = Commands.slash(entry.getKey(), entry.getValue().description);
+            slashCommands.add(slashCommand);
+        }
+
+        Main.bot.updateCommands().addCommands(slashCommands).complete();
+    }
+
     public static void exec(SlashCommandInteractionEvent interact) {
         if (commands.containsKey(interact.getName())) {
             commands.get(interact.getName()).exec(interact);

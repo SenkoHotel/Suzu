@@ -9,6 +9,9 @@ import senkohotel.hotelbot.commands.SlashCommandList;
 
 public class SlashCommandListener extends ListenerAdapter {
     public void onGuildReady(@NotNull GuildReadyEvent event) {
+        if (!Main.debug)
+            return;
+
         try {
             SlashCommandList.initGuild(event);
         } catch (Exception e) {
