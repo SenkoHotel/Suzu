@@ -11,6 +11,7 @@ import senkohotel.hotelbot.commands.SlashCommandList;
 import senkohotel.hotelbot.listeners.MessageListener;
 import senkohotel.hotelbot.listeners.SlashCommandListener;
 import senkohotel.suzu.listeners.ReadyListener;
+import senkohotel.suzu.xp.XPCollection;
 
 import javax.security.auth.login.LoginException;
 import java.nio.file.Files;
@@ -30,6 +31,9 @@ public class Main {
 
         CommandList.initList();
         SlashCommandList.initList();
+
+        XPCollection.initRoleList();
+        XPCollection.loadUsers();
 
         JDABuilder jda = JDABuilder.createDefault(loadToken());
         jda.enableIntents(EnumSet.allOf(GatewayIntent.class));
