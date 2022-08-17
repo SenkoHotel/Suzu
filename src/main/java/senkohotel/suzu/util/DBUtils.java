@@ -18,10 +18,12 @@ public class DBUtils {
     }
 
     public static void updateUsername(String name, String id) {
+        name = name.replace("'", "\\'").replace("`", "\\`");
         SuzuDB.execQuery("UPDATE `ranks` SET `username` = '" + name + "' WHERE `ranks`.`userid` = '" + id + "'");
     }
 
     public static void insertNewUser(int xp, String id, String name) {
+        name = name.replace("'", "\\'").replace("`", "\\`");
         SuzuDB.execQuery("INSERT INTO `ranks` (`userid`, `xp`, `username`) VALUES ('" + id + "', '" + xp + "', '" + name + "')");
     }
 
