@@ -27,20 +27,21 @@ public class XPUser {
     void checkForNewRoles(MessageReceivedEvent msg) {
         for (XPRole role : XPCollection.roles) {
             if (xp >= role.reqXP)
-                addRole(msg, role.roleID);
+                addRole(msg, role);
         }
     }
 
-    void addRole (MessageReceivedEvent msg, String roleID) {
-        if (checkForRole(msg, roleID))
+    void addRole(MessageReceivedEvent msg, XPRole role) {
+        if (checkForRole(msg, role.roleID))
             return;
 
-        msg.getGuild().addRoleToMember(msg.getMember(), msg.getGuild().getRoleById(roleID)).complete();
+        msg.getGuild().addRoleToMember(msg.getMember(), msg.getGuild().getRoleById(role.roleID)).complete();
 
         EmbedBuilder embed = new EmbedBuilder()
-                .setTitle("Congratulations " + msg.getAuthor().getName() + " on getting `" + msg.getGuild().getRoleById(roleID).getName() + "`.")
+                .setTitle("Congratulations " + msg.getAuthor().getName() + " on getting a new role!")
                 .setDescription("Keep it up! <:SK_stronk:792073244156231710>")
-                .setColor(msg.getGuild().getRoleById(roleID).getColor());
+                .addField("Role", role.roleIcon + " " + msg.getGuild().getRoleById(role.roleID).getName(), false)
+                .setColor(msg.getGuild().getRoleById(role.roleID).getColor());
 
         MessageUtils.send(msg.getChannel().getId(), embed);
     }
