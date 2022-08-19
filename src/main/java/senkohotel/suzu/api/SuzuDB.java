@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 
 public class SuzuDB {
     static JsonObject dbConf = null;
+    static HikariDataSource dataSource;
 
     public static HikariDataSource newDS() {
         try {
@@ -39,10 +40,12 @@ public class SuzuDB {
 
     public static ResultSet execQuery(String query) {
         try {
-            HikariDataSource ds = newDS();
-            PreparedStatement ps = ds.getConnection().prepareStatement(query);
+            if (dataSource == null)
+                dataSource = newDS();
+
+            PreparedStatement ps = dataSource.getConnection().prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            ds.close();
+            dataSource.close();
             return rs;
         } catch (Exception ex) {
             Main.LOG.error("Couldn't execute query: " + query);
