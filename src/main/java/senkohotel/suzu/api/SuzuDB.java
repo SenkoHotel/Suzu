@@ -8,6 +8,7 @@ import senkohotel.hotelbot.Main;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -43,9 +44,10 @@ public class SuzuDB {
             if (dataSource == null)
                 dataSource = newDS();
 
-            PreparedStatement ps = dataSource.getConnection().prepareStatement(query);
+            Connection con = dataSource.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            dataSource.close();
+            con.close();
             return rs;
         } catch (Exception ex) {
             Main.LOG.error("Couldn't execute query: " + query);
