@@ -1,0 +1,7 @@
+.idea
+bin
+obj
+config.json
+packages
+FodyWeavers.xml
+FodyWeavers.xsd
