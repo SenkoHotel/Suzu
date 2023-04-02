@@ -39,7 +39,7 @@ public static class SlashListener {
                                },
                                Fields = new List<EmbedFieldBuilder> {
                                    new() {
-                                       Name = ":SK_mangaLaugh: XP",
+                                       Name = "<:SK_mangaLaugh:792020838990872586> XP",
                                        Value = $"{user.Xp}",
                                        IsInline = true
                                    },
