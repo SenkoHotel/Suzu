@@ -22,7 +22,7 @@ public static class SlashListener {
                    break;
                
                case "rank":
-                   RealmAccess.Run(r => {
+                   RealmAccess.RunWrite(r => {
                        var user = XpUtils.GetXpUser(r, command.User.Id);
                        var rank = XpUtils.GetRank(r, command.User.Id);
                        var next = XpUtils.GetNextLevelRole(user.Xp);
