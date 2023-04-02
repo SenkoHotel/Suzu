@@ -30,6 +30,7 @@ internal static class Program {
         
     private static async Task Ready() {
            Logger.Log($"Logged in as {_client.CurrentUser.Username}#{_client.CurrentUser.Discriminator}");
+           await Client.SetActivityAsync(new Game("the hotel visitors talk with each other", ActivityType.Watching));
            
            var commands = new List<SlashCommandBuilder> {
                new() {
