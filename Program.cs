@@ -29,22 +29,34 @@ internal static class Program {
     }
         
     private static async Task Ready() {
-           Logger.Log($"Logged in as {_client.CurrentUser.Username}#{_client.CurrentUser.Discriminator}");
-           await Client.SetActivityAsync(new Game("the hotel visitors talk with each other", ActivityType.Watching));
-           
-           var commands = new List<SlashCommandBuilder> {
-               new() {
-                   Name = "ping",
-                   Description = "Pong!"
-               },
-               new() {
-                   Name = "rank",
-                   Description = "Get your rank in the server."
-               }
-           };
-           
-           foreach (var command in commands) {
-               await Client.Rest.CreateGlobalCommand(command.Build());
-           }
+        Logger.Log($"Logged in as {_client.CurrentUser.Username}#{_client.CurrentUser.Discriminator}");
+        await Client.SetActivityAsync(new Game("the hotel visitors talk with each other", ActivityType.Watching));
+        
+        var commands = new List<SlashCommandBuilder> {
+            new() {
+                Name = "ping",
+                Description = "Pong!"
+            },
+            new() {
+                Name = "rank",
+                Description = "Get your rank in the server."
+            },
+            new() {
+                Name = "top",
+                Description = "Get the top 10 users in the server.",
+                Options = new List<SlashCommandOptionBuilder> {
+                    new() {
+                        Name = "page",
+                        Description = "The page of the leaderboard.",
+                        Type = ApplicationCommandOptionType.Integer,
+                        IsRequired = false
+                    }
+                }
+            }
+        };
+        
+        foreach (var command in commands) {
+            await Client.Rest.CreateGlobalCommand(command.Build());
+        }
     }
 }

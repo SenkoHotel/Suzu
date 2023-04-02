@@ -18,8 +18,12 @@ public static class XpUtils {
     }
         
     public static int GetRank(Realm realm, ulong userId) {
+        return GetRank(realm, userId.ToString());
+    }
+    
+    public static int GetRank(Realm realm, string userId) {
         var users = realm.All<XpUser>().OrderByDescending(x => x.Xp).ToList();
-        var user = users.FirstOrDefault(x => x.Id == userId.ToString());
+        var user = users.FirstOrDefault(x => x.Id == userId);
             
         if (user == null) return -1;
             

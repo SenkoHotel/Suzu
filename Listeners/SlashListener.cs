@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Suzu.Database;
+using Suzu.Database.Components;
 using Suzu.Utils;
 
 namespace Suzu.Listeners; 
@@ -59,6 +60,40 @@ public static class SlashListener {
                        });
                    });
                    break;
+               
+                case "top":
+                    RealmAccess.Run(r => {
+                        var users = r.All<XpUser>().OrderByDescending(u => u.Xp).ToList();
+                        var page = command.Data.Options.FirstOrDefault(o => o.Name == "page")?.Value as int? ?? 1;
+                        int maxPage = (int)Math.Ceiling(users.Count / 10f);
+                        
+                        if (page < 1 || page > maxPage) {
+                            command.RespondAsync("", new[] {
+                                new EmbedBuilder {
+                                    Title = "Invalid page",
+                                    Description = $"The page must be between 1 and {maxPage}.",
+                                    Color = Color.Red,
+                                    ImageUrl =
+                                        "https://media.discordapp.net/attachments/328453138665439232/1066616268406407168/gyFdA6F.gif"
+                                }.Build()
+                            });
+                            return;
+                        }
+
+                        var embed = new EmbedBuilder {
+                            Title = $"Top Users - Page {page}/{maxPage}",
+                            Color = new Color(221, 164, 137)
+                        };
+                        
+                        for (int i = (page - 1) * 10; i < page * 10 && i < users.Count; i++) {
+                            var user = users[i];
+                            var rank = XpUtils.GetRank(r, user.Id);
+                            embed.Description += $"#{rank} <@{user.Id}> - {user.Xp}XP\n";
+                        }
+                        
+                        command.RespondAsync("", new[] {embed.Build()});
+                    });
+                    break;
                
                default:
                    await command.RespondAsync("", new[] {
