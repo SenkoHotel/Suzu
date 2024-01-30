@@ -11,7 +11,7 @@ public class ImageCommand : SlashCommand
 {
     public override string Name => "image";
     public override string Description => "Shows the image permission embed";
-    public override Permissions Permissions => Permissions.ManageMessages;
+    public override Permissions? Permission => Permissions.ManageMessages;
 
     public override void Handle(HotelBot bot, DiscordInteraction interaction)
     {

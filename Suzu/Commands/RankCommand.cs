@@ -1,5 +1,4 @@
-﻿using DSharpPlus;
-using DSharpPlus.Entities;
+﻿using DSharpPlus.Entities;
 using HotelLib;
 using HotelLib.Commands;
 using HotelLib.Utils;
@@ -13,7 +12,6 @@ public class RankCommand : SlashCommand
 {
     public override string Name => "rank";
     public override string Description => "Get your rank in the server.";
-    public override Permissions Permissions => Permissions.None;
 
     public override void Handle(HotelBot bot, DiscordInteraction interaction)
     {
