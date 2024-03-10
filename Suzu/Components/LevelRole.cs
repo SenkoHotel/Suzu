@@ -4,7 +4,7 @@ namespace Suzu.Components;
 
 public class LevelRole
 {
-    public static LevelRole[] Roles => new[]
+    public static List<LevelRole> Roles => new()
     {
         new LevelRole
         {

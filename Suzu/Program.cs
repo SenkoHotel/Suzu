@@ -31,35 +31,59 @@ public static class Program
         await bot.Start();
     }
 
-    private static Task onMessage(DiscordClient sender, MessageCreateEventArgs args)
+    private static async Task onMessage(DiscordClient sender, MessageCreateEventArgs args)
     {
-        if (args.Author.IsBot) return Task.CompletedTask;
+        if (args.Author.IsBot)
+            return;
 
         var user = UserHelper.GetUser(args.Author.Id);
 
         if (user.LastMessage + 60 > DateTimeOffset.Now.ToUnixTimeSeconds())
-            return Task.CompletedTask;
+            return;
 
         user.Xp += new Random().Next(10, 20);
         user.LastMessage = DateTimeOffset.Now.ToUnixTimeSeconds();
         UserHelper.Update(user);
+
+        LevelRole? highestRewarded = null;
 
         LevelRole.Roles.Where(x => x.XpRequired <= user.Xp).ToList().ForEach(x =>
         {
             var channel = args.Channel;
 
             var role = channel.Guild.GetRole(x.RoleId);
-            if (role == null) return;
+
+            if (role == null)
+                return;
 
             var member = args.Author as DiscordMember;
-            if (member == null) return;
+
+            if (member == null)
+                return;
 
             if (member.Roles.Any(y => y.Id == role.Id))
                 return;
 
+            highestRewarded = x;
             member.GrantRoleAsync(role, "Level Role");
         });
 
-        return Task.CompletedTask;
+        if (highestRewarded != null)
+        {
+            var embed = new DiscordEmbedBuilder()
+                        .WithAuthor(args.Author.Username, iconUrl: args.Author.AvatarUrl)
+                        .WithTitle("New milestone reached!")
+                        .WithDescription($"You leveled up to {highestRewarded.Icon} **{highestRewarded.Name}**!");
+
+            if (highestRewarded != LevelRole.Roles.Last())
+            {
+                var next = LevelRole.Roles[LevelRole.Roles.IndexOf(highestRewarded) + 1];
+                embed.AddField("Next up", $"{next.Icon} **{next.Name}**");
+            }
+            else
+                embed.AddField("Next up", "Nothing, you're done... <:SR_sip:858784374199287828>");
+
+            await args.Channel.SendMessageAsync(embed.Build());
+        }
     }
 }
