@@ -73,6 +73,7 @@ public static class Program
             var embed = new DiscordEmbedBuilder()
                         .WithAuthor(args.Author.Username, iconUrl: args.Author.AvatarUrl)
                         .WithTitle("New milestone reached!")
+                        .WithColor(highestRewarded.Color)
                         .WithDescription($"You leveled up to {highestRewarded.Icon} **{highestRewarded.Name}**!");
 
             if (highestRewarded != LevelRole.Roles.Last())
