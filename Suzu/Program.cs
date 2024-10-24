@@ -19,6 +19,7 @@ public static class Program
 
         var bot = new HotelBot(config.Token)
         {
+            AccentColor = new DiscordColor("#c0c0c0"),
             Commands = new List<SlashCommand>
             {
                 new RankCommand(),
