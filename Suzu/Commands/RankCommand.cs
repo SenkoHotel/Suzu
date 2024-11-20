@@ -13,7 +13,7 @@ public class RankCommand : SlashCommand
     public override string Name => "rank";
     public override string Description => "Get your rank in the server.";
 
-    public override void Handle(HotelBot bot, DiscordInteraction interaction)
+    public override async Task Handle(HotelBot bot, DiscordInteraction interaction)
     {
         var user = UserHelper.GetUser(interaction.User.Id);
 
@@ -39,6 +39,6 @@ public class RankCommand : SlashCommand
              .AddField(":arrow_up: Rank", $"#{user.GetRank()}", true)
              .AddField(":fast_forward: Next Role", nextText.Replace(",", "."));
 
-        interaction.ReplyEmbed(embed);
+        await interaction.ReplyEmbed(embed);
     }
 }

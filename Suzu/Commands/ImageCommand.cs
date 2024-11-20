@@ -13,7 +13,7 @@ public class ImageCommand : SlashCommand
     public override string Description => "Shows the image permission embed";
     public override Permissions? Permission => Permissions.ManageMessages;
 
-    public override void Handle(HotelBot bot, DiscordInteraction interaction)
+    public override async Task Handle(HotelBot bot, DiscordInteraction interaction)
     {
         var content = new StringBuilder();
         content.AppendLine("Hi");
@@ -26,7 +26,7 @@ public class ImageCommand : SlashCommand
                     .WithDescription(content.ToString())
                     .WithColor(new DiscordColor(221, 164, 137));
 
-        interaction.Channel.SendMessageAsync(embed);
-        interaction.Reply("Message sent!", true);
+        await interaction.Channel.SendMessageAsync(embed);
+        await interaction.Reply("Message sent!", true);
     }
 }

@@ -11,7 +11,7 @@ public class TopCommand : SlashCommand
     public override string Name => "top";
     public override string Description => "Get the top 10 users in the server.";
 
-    public override void Handle(HotelBot bot, DiscordInteraction interaction)
+    public override async Task Handle(HotelBot bot, DiscordInteraction interaction)
     {
         var users = UserHelper.Sorted.Take(10).ToList();
 
@@ -23,6 +23,6 @@ public class TopCommand : SlashCommand
             Color = new DiscordColor(221, 164, 137)
         };
 
-        interaction.ReplyEmbed(embed);
+        await interaction.ReplyEmbed(embed);
     }
 }
