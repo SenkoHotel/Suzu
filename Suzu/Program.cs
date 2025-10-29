@@ -5,7 +5,6 @@ using HotelLib;
 using HotelLib.Commands;
 using Suzu.Commands;
 using Suzu.Components;
-using Suzu.Database;
 using Suzu.Database.Helpers;
 
 namespace Suzu;
@@ -14,17 +13,17 @@ public static class Program
 {
     public static async Task Main()
     {
-        var config = HotelBot.LoadConfig<Config>();
-        MongoDatabase.Initialize(config.MongoConnectionString, config.MongoDatabaseName);
+        MongoDatabase.Initialize("suzu");
 
-        var bot = new HotelBot(config.Token)
+        var bot = new HotelBot
         {
             AccentColor = new DiscordColor("#c0c0c0"),
             Commands = new List<SlashCommand>
             {
                 new RankCommand(),
                 new TopCommand(),
-                new ImageCommand()
+                new ImageCommand(),
+                new DisableRoleCommand()
             }
         };
 
@@ -50,8 +49,10 @@ public static class Program
 
         LevelRole.Roles.Where(x => x.XpRequired <= user.Xp).ToList().ForEach(x =>
         {
-            var channel = args.Channel;
+            if (UserHelper.HasDisabled(user.Id, x.RoleId))
+                return;
 
+            var channel = args.Channel;
             var role = channel.Guild.GetRole(x.RoleId);
 
             if (role == null)
